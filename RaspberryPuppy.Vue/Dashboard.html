@@ -1,0 +1,253 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  https://www.bootstrapcdn.com/
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <title>Hundelogger</title>
+</head>
+<body>
+
+  <h1>Raspberry Puppy!</h1>
+ 
+    <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+     <ul class="navbar-nav">
+       <li class="nav-item active">
+        <a class="nav-link" href="#">Home</a>
+       </li>
+       <li class="nav-item">
+        <a class="nav-link" href="#">Show Results</a>
+       </li>
+       <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+       </li>
+       <li class="nav-item">
+        <a class="nav-link disabled" href="#">Help</a>
+       </li>
+      </ul>
+    </nav>
+
+ <div id="app">
+ 
+   <h2>Get All Dogs (GET)</h2>
+    <button id="getAllButton" v-on:click="getAllDogs" class="btn btn-primary">Get all dogs</button>
+    <br />
+    <ul id="doglist" v-if="dogs.length">
+      <li v-for="dog in dogs">
+        {{dog.id}} {{dog.name}} : {{dog.race }} {{ dog.NeedToWalk}}: {{dog.Sounds}}
+
+      </li>
+    </ul>
+ </div>
+    <!<input v-model="dogToGetBy" placeholder="dog" type="text" /> -->
+<!-- <button v-on:click="getByDog(dogToGetBy)" class="btn btn-primary">Get by dog</button> -->
+<!-- <ul id="doglist" v-if="dogs.length">
+        <li v-for="dog in dogs">
+            {{dog.id}} {{dog.name}} : {{dog.breed }} {{ dog.age}}
+        </li> -->
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script> -->
+<!-- <script src="index.js"></script> -->
+
+<!-- </body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hundetracker Dashboard</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-chartjs@4"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar {
+      height: 100vh;
+      background-color: #6f42c1;
+      color: white;
+      padding-top: 20px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      color: #ddd;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  
+    <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Hjem</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Dashboard.html">Vis Resultater</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Om RaspberryPuppy</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Hjælp</a>
+        </li>
+      </ul>
+    </nav>
+  
+  <!-- <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">Hjem</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Dashboard.html">Vis Resultater</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Om RaspberryPuppy</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Hjælp</a>
+      </li>
+    </ul>
+  </nav> -->
+  <div id="app">
+    <div class="d-flex">
+      <!-- Sidebar -->
+      <div class="sidebar p-3">
+        <h2 class="text-center">Hundetracker</h2>
+        <ul class="nav flex-column mt-4">
+          <li class="nav-item mb-2">
+            <a href="#" class="nav-link">Dashboard</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="#" class="nav-link">Statistik</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="#" class="nav-link">Indstillinger</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="container-fluid p-4">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card bg-primary text-white">
+              <div class="card-body">
+                <h5>Distance Gået</h5>
+                <h3>{{totalDistance}} km</h3>
+                <p class="mb-0">Denne måned</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-success text-white">
+              <div class="card-body">
+                <h5>Godkendte Gåture</h5>
+                <h3>{{ approvedWalks }}</h3>
+                <p class="mb-0">Denne måned</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-danger text-white">
+              <div class="card-body">
+                <h5>Ikke Godkendte</h5>
+                <h3>{{ failedWalks }}</h3>
+                <p class="mb-0">Denne måned</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-warning text-white">
+              <div class="card-body">
+                <h5>Gennemsnitlig Rang</h5>
+                <h3>{{ averageRank }}%</h3>
+                <p class="mb-0">Denne måned</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <section id="statistik">
+                  <h2>Gåtur statistik</h2>
+                  
+                  <line-chart :chart-data="chartData" :chart-options="chartOptions"></line-chart>
+                </section>
+              
+                <canvas id="walkChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <script src="Dashboard.js"></script>
+  <script>
+    const { createApp } = Vue;
+    const { Chart } = ChartJS;
+
+    createApp({
+      components: {
+        LineChart: {
+          extends: VueChartJs.Line,
+          data() {
+            return {
+              chartData: {
+                labels: ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'],
+                datasets: [
+                  {
+                    label: 'Antal Skridt',
+                    backgroundColor: '#f87979',
+                    data: [40, 39, 10, 40, 39, 80, 40]
+                  }
+                ]
+              },
+              chartOptions: {
+                responsive: true,
+                maintainAspectRatio: false
+              }
+            };
+          }
+        }
+      }
+    }).mount('#app');
+</script>
+
+</body>
+
+</html>
